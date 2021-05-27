@@ -11,6 +11,8 @@ namespace gl_classes {
     class ComputeProgram : public Program
     {
     public:
+        ComputeProgram() : Program(){}
+        virtual ~ComputeProgram(){}
         virtual ComputeProgram& dispatch(int x, int y, int z, int gx, int gy, int gz)
         {
             return ComputeProgram::dispatch(

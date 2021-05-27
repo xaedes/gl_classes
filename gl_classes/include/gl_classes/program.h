@@ -27,6 +27,7 @@ namespace gl_classes {
             , m_shaders(shaders)
             , m_valid(false)
         {}
+        virtual ~Program(){}
 
         virtual void setup()
         {
