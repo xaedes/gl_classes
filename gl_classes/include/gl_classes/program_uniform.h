@@ -47,6 +47,23 @@ namespace gl_classes {
     // concrete function. As such it needs to be (implicitly or explicitly)
     // declared inline. See https://stackoverflow.com/a/4447057/798588
 
+    template<> inline void ProgramUniform<bool>::set(const bool& value)
+    {
+        m_value = value;
+        if (m_loc != -1) 
+        {
+            // https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/glProgramUniform.xhtml
+            // Either the i, ui or f variants may be used to provide values for
+            // uniform variables of type bool, bvec2, bvec3, bvec4, or arrays of
+            // these. The uniform variable will be set to false if the input
+            // value is 0 or 0.0f, and it will be set to true otherwise.
+            glProgramUniform1ui(m_glProgram, m_loc, value ? 1 : 0);
+        }
+        else if (m_enableDebugOutput)
+        {
+            std::cout << "location for uniform " << m_name << " not found!" << std::endl;
+        }
+    }
     template<> inline void ProgramUniform<float>::set(const float& value)
     {
         m_value = value;
@@ -66,8 +83,7 @@ namespace gl_classes {
         {
             glProgramUniform1ui(m_glProgram, m_loc, m_value);
         }
-        else
-     if (m_enableDebugOutput)    {
+        else if (m_enableDebugOutput)    {
             std::cout << "location for uniform " << m_name << " not found!" << std::endl;
         }
     }
