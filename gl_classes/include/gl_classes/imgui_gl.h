@@ -97,3 +97,9 @@ inline bool ImGuiButton(const char* label, bool enabled = true, const ImVec2& si
     }
     return result;
 }
+
+template <class...Args>
+void ImGuiText(const std::string& str, Args&&... args)
+{
+    ImGui::Text(str.c_str(), std::forward<Args>(args)...);
+}
