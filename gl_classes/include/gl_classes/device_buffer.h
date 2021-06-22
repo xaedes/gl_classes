@@ -94,7 +94,7 @@ namespace gl_classes {
             resize(numItems);
         }
 
-        void resize(int numItems)
+        void resize(int numItems, bool update_gl=true)
         {
             m_numItems = numItems;
             int newBufSize = element_size * m_numItems;
@@ -107,10 +107,13 @@ namespace gl_classes {
             if (newBufSize > m_bufferSize)
             {
                 m_bufferSize = newBufSize;
-                glBindBuffer(m_target, m_buffer);
-                // std::vector<value_type> data(m_numItems);
-                // glBufferData(m_target, m_bufferSize, data.data(), m_usage);
-                glBufferData(m_target, m_bufferSize, NULL, m_usage);
+                if (update_gl)
+                {
+                    glBindBuffer(m_target, m_buffer);
+                    // std::vector<value_type> data(m_numItems);
+                    // glBufferData(m_target, m_bufferSize, data.data(), m_usage);
+                    glBufferData(m_target, m_bufferSize, NULL, m_usage);
+                }
             }
             else
             {
@@ -212,6 +215,7 @@ namespace gl_classes {
         }
         int size() const { return m_numItems; }
         GLuint getBufferId() const { return m_buffer; }
+        GLuint& getBufferId() { return m_buffer; }
 
     };
 
