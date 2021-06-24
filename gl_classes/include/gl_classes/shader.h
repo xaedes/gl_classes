@@ -16,6 +16,7 @@ namespace gl_classes {
         {
             None = 0,
             Vertex = GL_VERTEX_SHADER,
+            Geometry = GL_GEOMETRY_SHADER,
             Fragment = GL_FRAGMENT_SHADER,
             Compute = GL_COMPUTE_SHADER
         };
@@ -24,10 +25,11 @@ namespace gl_classes {
         {
             switch (type)
             {
-            case None: return "None";
-            case Vertex: return "Vertex";
+            case None:     return "None";
+            case Vertex:   return "Vertex";
+            case Geometry: return "Geometry";
             case Fragment: return "Fragment";
-            case Compute: return "Compute";
+            case Compute:  return "Compute";
             default: throw std::runtime_error("not implemented");
             };
         }
