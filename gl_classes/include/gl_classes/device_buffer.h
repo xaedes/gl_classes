@@ -66,7 +66,7 @@ namespace gl_classes {
         DeviceBuffer(GLenum target = GL_ARRAY_BUFFER, GLenum usage = GL_STATIC_DRAW, size_t initialCapacity = 1)
             : m_target(target)
             , m_bufferBase(0)
-            , m_buffer(-1)
+            , m_buffer(0)
             , m_usage(usage)
             , m_bufferSize(0)
             , m_numItems(initialCapacity)
@@ -90,7 +90,7 @@ namespace gl_classes {
         void init(GLenum usage, int numItems)
         {
             m_usage = usage;
-            glGenBuffers(1, &m_buffer);
+            if (m_buffer == 0 ) glGenBuffers(1, &m_buffer);
             resize(numItems);
         }
 
