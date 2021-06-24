@@ -39,6 +39,11 @@ namespace gl_classes {
             void init(GLuint arrayId, GLuint attribId)
             {
                 this->attribId = attribId;
+                init(arrayId);
+            }
+
+            void init(GLuint arrayId)
+            {
                 enable(arrayId);
                 // glBindBuffer: If pointer is not NULL, a non-zero named buffer
                 // object must be bound to the GL_ARRAY_BUFFER target (see
@@ -79,15 +84,18 @@ namespace gl_classes {
         {}
 
 
-        void init(const std::vector<VertexAttribPointer>& attribs)
+        void init(const std::vector<VertexAttribPointer>& attribs, bool genVertexArray = true)
         {
             setAttribs(attribs);
-            init();
+            init(genVertexArray);
 
         }
-        void init()
+        void init(bool genVertexArray = true)
         {
-            glGenVertexArrays(1, &m_vertexArrayId);
+            if (genVertexArray && (m_vertexArrayId == 0))
+            {
+                glGenVertexArrays(1, &m_vertexArrayId);
+            }
             bind();
             for (int i=0; i<m_attribs.size(); ++i)
             {
@@ -123,7 +131,7 @@ namespace gl_classes {
                 while (attrib_size > 0)
                 {
                     VertexAttribPointer attr_part;
-                    attr_part.size = attrib_size < 4 ? attrib_size : 4;
+                    attr_part.size = (attrib_size < 4) ? attrib_size : 4;
                     attr_part.bufferId = attr.bufferId;
                     attr_part.type = attr.type;
                     attr_part.typeSize = attr.typeSize;
@@ -146,7 +154,7 @@ namespace gl_classes {
 
     protected:
         std::vector<VertexAttribPointer> m_attribs;
-        GLuint m_vertexArrayId;
+        GLuint m_vertexArrayId = 0;
     };
 
 } // namespace gl_classes
