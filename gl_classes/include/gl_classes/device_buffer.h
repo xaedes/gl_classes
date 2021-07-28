@@ -125,6 +125,11 @@ namespace gl_classes {
             glBindBuffer(m_target, m_buffer);
             return *this;
         }
+        const DeviceBuffer<value_type>& bind() const
+        {
+            glBindBuffer(m_target, m_buffer);
+            return *this;
+        }
         DeviceBuffer<value_type>& upload(const void* data)
         {
             upload(data, 0, m_numItems);
@@ -147,6 +152,17 @@ namespace gl_classes {
             glGetBufferSubData(m_target, element_size*start, element_size*(num), data);
             return *this;
         }
+        const DeviceBuffer<value_type>& download(void* data) const
+        {
+            download(data, 0, m_numItems);
+            return *this;
+        }
+        const DeviceBuffer<value_type>& download(void* data, int start, int num) const
+        {
+            if (m_autoBind) bind();
+            glGetBufferSubData(m_target, element_size*start, element_size*(num), data);
+            return *this;
+        }
         /**
          * Only if m_target is one of GL_ATOMIC_COUNTER_BUFFER, GL_TRANSFORM_FEEDBACK_BUFFER, GL_UNIFORM_BUFFER or GL_SHADER_STORAGE_BUFFER.
          * @see https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/glBindBufferBase.xhtml
@@ -161,8 +177,14 @@ namespace gl_classes {
          */
         DeviceBuffer<value_type>& bufferBase(GLuint value)
         {
+            glBindBufferBase(m_target, value, m_buffer);
             m_bufferBase = value;
-            glBindBufferBase(m_target, m_bufferBase, m_buffer);
+            return *this;
+        }
+
+        const DeviceBuffer<value_type>& cbufferBase(GLuint value) const
+        {
+            glBindBufferBase(m_target, value, m_buffer);
             return *this;
         }
 
@@ -215,7 +237,10 @@ namespace gl_classes {
         }
         int size() const { return m_numItems; }
         GLuint getBufferId() const { return m_buffer; }
-        GLuint& getBufferId() { return m_buffer; }
+        GLuint bufferId() const { return m_buffer; }
+        void bufferId(GLuint value) { m_buffer = value; }
+        
+        // GLuint& bufferId() { return m_buffer; }
 
     };
 
