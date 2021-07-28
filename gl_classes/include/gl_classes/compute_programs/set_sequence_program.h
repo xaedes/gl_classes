@@ -21,9 +21,9 @@ namespace compute_programs {
         using Shader = gl_classes::Shader;
 
         using value_type = value_t;
-        SetSequenceProgram(){}
-        ~SetSequenceProgram(){}
-        void setup(const std::string& type_str, glm::uvec3 group_size = glm::uvec3(1024,1,1))
+        inline SetSequenceProgram(){}
+        inline ~SetSequenceProgram(){}
+        inline void setup(const std::string& type_str, glm::uvec3 group_size = glm::uvec3(1024,1,1))
         {
             m_group_size = group_size;
             m_shaders = {Shader(Shader::ShaderType::Compute, code())};
@@ -39,14 +39,14 @@ namespace compute_programs {
             increment.init(getGlProgram(), "increment");
             checkGLError();
         }            
-        ComputeProgram& dispatch(int num_items, value_type start, value_type increment)
+        inline ComputeProgram& dispatch(int num_items, value_type start, value_type increment)
         {
             this->num_items.set(num_items);
             this->start.set(start);
             this->increment.set(increment);
             return ComputeProgram::dispatch(num_items, 1, 1, m_group_size.x, m_group_size.y, m_group_size.z);
         }            
-        std::string code() const
+        inline std::string code() const
         {
             return (
         R"(

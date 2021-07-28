@@ -21,9 +21,9 @@ namespace compute_programs {
         using Shader = gl_classes::Shader;
 
         using value_type = value_t;
-        SetValuesProgram(){}
-        ~SetValuesProgram(){}
-        void setup(const std::string& type_str, glm::uvec3 group_size = glm::uvec3(1024,1,1))
+        inline SetValuesProgram(){}
+        inline ~SetValuesProgram(){}
+        inline void setup(const std::string& type_str, glm::uvec3 group_size = glm::uvec3(1024,1,1))
         {
             m_group_size = group_size;
             m_shaders = {Shader(Shader::ShaderType::Compute, code())};
@@ -38,13 +38,13 @@ namespace compute_programs {
             value.init(getGlProgram(), "value");
             checkGLError();
         }            
-        void dispatch(int num_items, value_type value)
+        inline void dispatch(int num_items, value_type value)
         {
             this->num_items.set(num_items);
             this->value.set(value);
             ComputeProgram::dispatch(num_items, 1, 1, m_group_size.x, m_group_size.y, m_group_size.z);
         }            
-        std::string code() const
+        inline std::string code() const
         {
             return (
         R"(
