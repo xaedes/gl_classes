@@ -8,6 +8,8 @@ namespace gl_classes {
     class PingPong
     {
     public:
+        T& write_toggle() { /*return write(); toggle(); --> */ toggle(); return read(); }
+
         T& read() { return m_buffers[m_readIdx]; }
         T& write() { return m_buffers[1-m_readIdx]; }
         void toggle() { m_readIdx = 1-m_readIdx; }
