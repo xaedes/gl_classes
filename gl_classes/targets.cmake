@@ -4,6 +4,7 @@ add_library(
     ${PROJECT_NAME} 
     STATIC 
     src/replace_string.cpp
+    src/check_gl_error.cpp
 )
 
 target_link_libraries(${PROJECT_NAME} PUBLIC OpenGL::GL)

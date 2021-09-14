@@ -5,6 +5,7 @@
 #include <utility>
 #include "gl_classes/imgui_gl.h"
 #include "gl_classes/shader.h"
+#include "gl_classes/check_gl_error.h"
 
 namespace gl_classes {
 
