@@ -201,11 +201,13 @@ namespace gl_classes {
         DeviceBuffer<value_type>& target(GLenum newTarget) 
         {
             m_target = newTarget;
+            return *this;
         }
 
         DeviceBuffer<value_type>& usage(GLenum newUsage) 
         {
             m_usage = newUsage;
+            return *this;
         }
 
         void* map_ro() { return map(GL_READ_ONLY); }
