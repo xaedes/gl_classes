@@ -87,17 +87,17 @@ namespace gl_classes {
          *                              GL_DYNAMIC_COPY.
          * @param[in]  numItems         The number of items
          */
-        void init(GLenum usage, int numItems)
+        void init(GLenum usage, size_t numItems)
         {
             m_usage = usage;
             if (m_buffer == 0 ) glGenBuffers(1, &m_buffer);
             resize(numItems);
         }
 
-        void resize(int numItems, bool update_gl=true)
+        void resize(size_t numItems, bool update_gl=true)
         {
             m_numItems = numItems;
-            int newBufSize = element_size * m_numItems;
+            size_t newBufSize = element_size * m_numItems;
             // align size to 4 bytes
             if (newBufSize % 4 != 0)
             {
@@ -135,7 +135,7 @@ namespace gl_classes {
             upload(data, 0, m_numItems);
             return *this;
         }
-        DeviceBuffer<value_type>& upload(const void* data, int start, int num)
+        DeviceBuffer<value_type>& upload(const void* data, size_t start, size_t num)
         {
             if (m_autoBind) bind();
             glBufferSubData(m_target, element_size*start, element_size*(num), data);
@@ -146,7 +146,7 @@ namespace gl_classes {
             download(data, 0, m_numItems);
             return *this;
         }
-        DeviceBuffer<value_type>& download(void* data, int start, int num)
+        DeviceBuffer<value_type>& download(void* data, size_t start, size_t num)
         {
             if (m_autoBind) bind();
             glGetBufferSubData(m_target, element_size*start, element_size*(num), data);
@@ -157,7 +157,7 @@ namespace gl_classes {
             download(data, 0, m_numItems);
             return *this;
         }
-        const DeviceBuffer<value_type>& download(void* data, int start, int num) const
+        const DeviceBuffer<value_type>& download(void* data, size_t start, size_t num) const
         {
             if (m_autoBind) bind();
             glGetBufferSubData(m_target, element_size*start, element_size*(num), data);
@@ -224,10 +224,10 @@ namespace gl_classes {
         void* mapr_rw() { return mapr_rw(0, m_numItems); }
         void* mapr(GLbitfield access) { return mapr(0, m_numItems, access); }
 
-        void* mapr_ro(int start, int num) { return mapr(start, num, GL_MAP_READ_BIT); }
-        void* mapr_wo(int start, int num) { return mapr(start, num, GL_MAP_WRITE_BIT | GL_MAP_INVALIDATE_BUFFER_BIT | GL_MAP_UNSYNCHRONIZED_BIT); }
-        void* mapr_rw(int start, int num) { return mapr(start, num, GL_MAP_READ_BIT | GL_MAP_WRITE_BIT); }
-        void* mapr(int start, int num, GLbitfield access)
+        void* mapr_ro(size_t start, size_t num) { return mapr(start, num, GL_MAP_READ_BIT); }
+        void* mapr_wo(size_t start, size_t num) { return mapr(start, num, GL_MAP_WRITE_BIT | GL_MAP_INVALIDATE_BUFFER_BIT | GL_MAP_UNSYNCHRONIZED_BIT); }
+        void* mapr_rw(size_t start, size_t num) { return mapr(start, num, GL_MAP_READ_BIT | GL_MAP_WRITE_BIT); }
+        void* mapr(size_t start, size_t num, GLbitfield access)
         {
             glBindBuffer(m_target, m_buffer);
             return glMapBufferRange(m_target, element_size*start, element_size*(num), access);
@@ -237,7 +237,7 @@ namespace gl_classes {
         {
             glUnmapBuffer(m_target);
         }
-        int size() const { return m_numItems; }
+        size_t size() const { return m_numItems; }
         GLuint getBufferId() const { return m_buffer; }
         GLuint bufferId() const { return m_buffer; }
         void bufferId(GLuint value) { m_buffer = value; }

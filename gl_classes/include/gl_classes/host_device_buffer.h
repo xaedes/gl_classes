@@ -55,7 +55,7 @@ namespace gl_classes {
             DeviceBuffer::download(buffer.data());
             return *this;
         }
-        HostDeviceBuffer& upload(int start, int num)
+        HostDeviceBuffer& upload(size_t start, size_t num)
         {
             if (start + num > DeviceBuffer::size())
             {
@@ -67,7 +67,7 @@ namespace gl_classes {
             }
             return *this;
         }
-        HostDeviceBuffer& download(int start, int num)
+        HostDeviceBuffer& download(size_t start, size_t num)
         {
             if (start+num > buffer.size())
             {
