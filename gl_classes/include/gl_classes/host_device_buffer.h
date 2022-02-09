@@ -79,6 +79,16 @@ namespace gl_classes {
             }
             return *this;
         }
+        HostDeviceBuffer& upload(const void* data, size_t start, size_t num)
+        {
+            DeviceBuffer::upload(data, start, num);
+            return *this;
+        }
+        HostDeviceBuffer& download(void* data, size_t start, size_t num)
+        {
+            DeviceBuffer::download(data, start, num);
+            return *this;
+        }
     };
 
 } // namespace gl_classes
