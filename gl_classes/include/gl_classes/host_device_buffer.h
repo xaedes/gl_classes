@@ -40,6 +40,15 @@ namespace gl_classes {
         }
         buffer_type buffer;
 
+        HostDeviceBuffer& resizeDevice()
+        {
+            if (buffer.size() != DeviceBuffer::size())
+            {
+                DeviceBuffer::resize(buffer.size());
+            }
+            return *this;
+        }
+
         HostDeviceBuffer& upload()
         {
             if (buffer.size() != DeviceBuffer::size())
