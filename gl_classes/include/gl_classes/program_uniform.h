@@ -207,6 +207,32 @@ namespace gl_classes {
             std::cout << "location for uniform " << m_name << " not found!" << std::endl;
         }
     }
+    template<> inline void ProgramUniform<glm::mat2>::set(const glm::mat2& value)
+    {
+        m_value = value;
+        if (m_loc != -1) 
+        {
+            bool transpose = false;
+            glProgramUniformMatrix2fv(m_glProgram, m_loc, 1, transpose, &m_value[0][0]);
+        }
+        else if (m_enableDebugOutput)
+        {
+            std::cout << "location for uniform " << m_name << " not found!" << std::endl;
+        }
+    }
+    template<> inline void ProgramUniform<glm::mat3>::set(const glm::mat3& value)
+    {
+        m_value = value;
+        if (m_loc != -1) 
+        {
+            bool transpose = false;
+            glProgramUniformMatrix3fv(m_glProgram, m_loc, 1, transpose, &m_value[0][0]);
+        }
+        else if (m_enableDebugOutput)
+        {
+            std::cout << "location for uniform " << m_name << " not found!" << std::endl;
+        }
+    }
     template<> inline void ProgramUniform<glm::mat4>::set(const glm::mat4& value)
     {
         m_value = value;
