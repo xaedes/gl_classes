@@ -35,6 +35,7 @@ namespace compute_programs {
             });
             Program::setup();
             num_items.init(getGlProgram(), "num_items");
+            offset.init(getGlProgram(), "offset", 0);
             start.init(getGlProgram(), "start");
             increment.init(getGlProgram(), "increment");
             checkGLError();
@@ -63,6 +64,7 @@ namespace compute_programs {
         };
 
         uniform uint num_items;
+        uniform uint offset = 0;
         uniform ##TYPE## start;
         uniform ##TYPE## increment;
 
@@ -73,14 +75,18 @@ namespace compute_programs {
                 gl_WorkGroupID.x;
             uint global_idx = gl_LocalInvocationIndex + workgroup_idx * GROUPSIZE;
             if (global_idx >= num_items) return;
-            values[global_idx] = start + ##TYPE##(global_idx)*increment;
+            values[offset + global_idx] = start + ##TYPE##(global_idx)*increment;
         }
         )"
             );
         }            
         ProgramUniform<uint32_t> num_items;
+        ProgramUniform<uint32_t> offset;
         ProgramUniform<value_type> start;
         ProgramUniform<value_type> increment;
+
+        glm::uvec3 group_size() const { return m_group_size; }
+        
     protected:
         glm::uvec3 m_group_size;
     };
