@@ -40,11 +40,17 @@ namespace compute_programs {
             offset_out.init(getGlProgram(), "offset_out", 0);
             checkGLError();
         }            
-        inline void dispatch(uint32_t num_items)
+        void dispatch(uint32_t num_items)
         {
             this->num_items.set(num_items);
             ComputeProgram::dispatch(num_items, 1, 1, m_group_size.x, m_group_size.y, m_group_size.z);
-        }            
+        }
+        void dispatch(uint32_t num_items, uint32_t offset_in, uint32_t offset_out)
+        {
+            this->offset_in.set(offset_in);
+            this->offset_out.set(offset_out);
+            dispatch(num_items);
+        }
         inline std::string code() const
         {
             return (
@@ -86,16 +92,16 @@ namespace compute_programs {
         ProgramUniform<uint32_t> offset_in;
         ProgramUniform<uint32_t> offset_out;
     protected:
-        ComputeProgram& dispatch(uint32_t x, uint32_t y, uint32_t z) override
-        {
-            // prevent public access to CopyProgram::dispatch(uint32_t, uint32_t, uint32_t)
-            // as this is once was accessible as a public member in this class which set two additional uniform values.
-            // to avoid confusion/conflict with ComputeProgram::dispatch(uint32_t,uint32_t,uint32_t) it was changed to accept
-            // num_items only.
-            // if you used this function, set offset_in and offset_out explicitly instead.
-            ComputeProgram::dispatch(x, y, z);
-            return *static_cast<ComputeProgram*>(this);
-        }
+        //void dispatch(uint32_t x, uint32_t y, uint32_t z) override
+        //{
+        //    // prevent public access to CopyProgram::dispatch(uint32_t, uint32_t, uint32_t)
+        //    // as this is once was accessible as a public member in this class which set two additional uniform values.
+        //    // to avoid confusion/conflict with ComputeProgram::dispatch(uint32_t,uint32_t,uint32_t) it was changed to accept
+        //    // num_items only.
+        //    // if you used this function, set offset_in and offset_out explicitly instead.
+        //    ComputeProgram::dispatch(x, y, z);
+        //    return *static_cast<ComputeProgram*>(this);
+        //}
 
         glm::uvec3 m_group_size;
     };

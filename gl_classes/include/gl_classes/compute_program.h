@@ -15,20 +15,19 @@ namespace gl_classes {
         ComputeProgram() : Program(){}
         virtual ~ComputeProgram(){}
 
-        virtual ComputeProgram& dispatch(uint64_t x, uint64_t y, uint64_t z, uint32_t gx, uint32_t gy, uint32_t gz)
+        virtual void dispatch(uint64_t x, uint64_t y, uint64_t z, uint32_t gx, uint32_t gy, uint32_t gz)
         {
-            return ComputeProgram::dispatch(
+            ComputeProgram::dispatch(
                 static_cast<uint32_t>(x/gx + ((x%gx == 0) ? 0 : 1)),
                 static_cast<uint32_t>(y/gy + ((y%gy == 0) ? 0 : 1)),
                 static_cast<uint32_t>(z/gz + ((z%gz == 0) ? 0 : 1))
             );
         }
         
-        virtual ComputeProgram& dispatch(uint32_t x, uint32_t y, uint32_t z)
+        virtual void dispatch(uint32_t x, uint32_t y, uint32_t z)
         {
             glDispatchCompute(x, y, z);
             checkGLError();
-            return *this;
         }
     };
 

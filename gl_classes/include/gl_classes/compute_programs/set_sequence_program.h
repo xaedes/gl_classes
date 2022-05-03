@@ -41,12 +41,12 @@ namespace compute_programs {
             checkGLError();
         }            
         
-        inline ComputeProgram& dispatch(glm::uint num_items)
+        void dispatch(glm::uint num_items)
         {
             this->num_items.set(num_items);
-            return ComputeProgram::dispatch(num_items, 1, 1, m_group_size.x, m_group_size.y, m_group_size.z);
+            ComputeProgram::dispatch(num_items, 1, 1, m_group_size.x, m_group_size.y, m_group_size.z);
         }
-        inline ComputeProgram& dispatch_with(glm::uint num_items, value_type start, value_type increment)
+        void dispatch(glm::uint num_items, value_type start, value_type increment)
         {
             this->start.set(start);
             this->increment.set(increment);
